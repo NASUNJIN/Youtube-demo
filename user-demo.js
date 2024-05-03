@@ -61,75 +61,39 @@ app.post('/join', (req, res) => {
     }
 })
 
-app
-    .route('/users/:id')
-    .get((req, res) => {
-        let {id} = req.params
-        id = parseInt(id)  // id값 숫자로 바꾸기
-    
-        const user = db.get(id)
-        if (user == undefined) {
-            res.status(404).json({
-                message : "회원정보가 없습니다."
-            })
-        } else {
-            res.status(200).json({
-                userId : user.userId,
-                name : user.name
-            })
-        }
-    })
-    .delete((req, res) => {
-        let {id} = req.params
-        id = parseInt(id)  // id값 숫자로 바꾸기
-    
-        const user = db.get(id)
-        if (user == undefined) {
-            res.status(404).json({
-                message : "회원정보가 없습니다."
-            })
-        } else {
-            db.delete(id)
-    
-            res.status(200).json({
-                message : `${user.name}님 다음에 또 뵙겠습니다.`
-            })
-        }
-    })
-
 // 회원 개별 조회
-// app.get('/users/:id', (req, res) => {
-//     let {id} = req.params
-//     id = parseInt(id)  // id값 숫자로 바꾸기
+app.get('/users/:id', (req, res) => {
+    let {id} = req.params
+    id = parseInt(id)  // id값 숫자로 바꾸기
 
-//     const user = db.get(id)
-//     if (user == undefined) {
-//         res.status(404).json({
-//             message : "회원정보가 없습니다."
-//         })
-//     } else {
-//         res.status(200).json({
-//             userId : user.userId,
-//             name : user.name
-//         })
-//     }
-// })
+    const user = db.get(id)
+    if (user == undefined) {
+        res.status(404).json({
+            message : "회원정보가 없습니다."
+        })
+    } else {
+        res.status(200).json({
+            userId : user.userId,
+            name : user.name
+        })
+    }
+})
 
 // 회원 개별 탈퇴
-// app.delete('/users/:id', (req, res) => {
-//     let {id} = req.params
-//     id = parseInt(id)  // id값 숫자로 바꾸기
+app.delete('/users/:id', (req, res) => {
+    let {id} = req.params
+    id = parseInt(id)  // id값 숫자로 바꾸기
 
-//     const user = db.get(id)
-//     if (user == undefined) {
-//         res.status(404).json({
-//             message : "회원정보가 없습니다."
-//         })
-//     } else {
-//         db.delete(id)
+    const user = db.get(id)
+    if (user == undefined) {
+        res.status(404).json({
+            message : "회원정보가 없습니다."
+        })
+    } else {
+        db.delete(id)
 
-//         res.status(200).json({
-//             message : `${user.name}님 다음에 또 뵙겠습니다.`
-//         })
-//     }
-// })
+        res.status(200).json({
+            message : `${user.name}님 다음에 또 뵙겠습니다.`
+        })
+    }
+})
