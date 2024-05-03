@@ -9,8 +9,40 @@ var id = 1
 
 // 로그인
 app.post('/login', (req, res) => {
+    console.log(req.body)  // userId, password
+
+    // userId가 db에 저장된 회원인지 확인해야함
+    const { userId, password } = req.body
+    var loginUser = {}
+
+    db.forEach(function(user, id) {
+        if ( user.userId === userId ) {  // userId가 같을 경우
+            loginUser = user
+        }
+    })
     
+    if (isExist(loginUser)) {
+        console.log("아이디 같음")
+        
+        // pw가 같을 경우
+        if (loginUser.password === password) {  
+            console.log("패스워드도 같음")
+        } else {  // pw 틀린 경우
+            console.log("패스워드 다름")
+        }
+    } else {  // length === 0 (빈 객체일 경우)
+        console.log("입력하신 아이디는 없습니다.")
+    }
+
 })
+
+function isExist(obj) {
+    if (Object.keys(obj).length) {  // 객체가 안비었을 경우 (객체 존재)
+        return true
+    } else {  // 객체가 비었을 경우
+        return false
+    }
+}
 
 // 회원가입
 app.post('/join', (req, res) => {
