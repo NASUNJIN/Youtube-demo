@@ -1,6 +1,19 @@
 // express 모듈 셋팅
 const express = require('express')
 const router = express.Router() // app.js가 user-demo를 찾을 수 있게 해줌 > express의 router로 사용가능
+const conn = require('../mariadb')
+
+
+conn.query(
+    'SELECT * FROM `users`',
+    function (err, results, fields) {
+        var {id, email, name, created_at} = results[0];
+        console.log(id);
+        console.log(email);
+        console.log(name);
+        console.log(created_at);
+    }
+);
 
 router.use(express.json())  // http 외 모듈 'json'
 
