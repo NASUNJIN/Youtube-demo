@@ -3,9 +3,7 @@ const express = require('express');
 const router = express.Router(); // app.js가 user-demo를 찾을 수 있게 해줌 > express의 router로 사용가능
 const conn = require('../mariadb');
 const { body, param, validationResult } = require('express-validator'); // 유효성 검사
-
-// jwt 모듈
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');  // jwt 모듈
 
 // dotenv 모듈
 const dotenv = require('dotenv');
