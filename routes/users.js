@@ -1,8 +1,15 @@
 // express 모듈 셋팅
-const express = require('express')
-const router = express.Router() // app.js가 user-demo를 찾을 수 있게 해줌 > express의 router로 사용가능
-const conn = require('../mariadb')
+const express = require('express');
+const router = express.Router(); // app.js가 user-demo를 찾을 수 있게 해줌 > express의 router로 사용가능
+const conn = require('../mariadb');
 const { body, param, validationResult } = require('express-validator'); // 유효성 검사
+
+// jwt 모듈
+const jwt = require('jsonwebtoken');
+
+// dotenv 모듈
+const dotenv = require('dotenv');
+dotenv.config()
 
 router.use(express.json())  // http 외 모듈 'json'
 
@@ -42,11 +49,24 @@ router
                     var loginUser = results[0];
                     // 로그인 유저가 있을 경우 && results로 받아온 password의 값이 body 값의 (db) password랑 같다면
                     if (loginUser && (loginUser.password == password)) {  
+                        // token 발급
+                        const token = jwt.sign({
+                            email : loginUser.email,
+                            name : loginUser.name
+                        }, process.env.PRIVATE_KEY, {
+                            expiresIn : '5m',
+                            issuer : "sunjin"
+                        })
+
+                        res.cookie("token", token, {
+                            httpOnly : true
+                        })
+
                         res.status(200).json({
                             message : `${loginUser.name}님 로그인 되었습니다.`
                         })
                     } else {  // 회원이 없을 경우
-                        res.status(404).json({
+                        res.status(403).json({  // 접근 금지
                             message : `이메일 또는 비밀번호가 틀렸습니다.`
                         })
                     }

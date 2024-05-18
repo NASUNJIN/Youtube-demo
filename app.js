@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
-app.listen(3000)
+const dotenv = require('dotenv'); // dotenv 모듈
+dotenv.config()
+
+app.listen(process.env.PORT)
 
 const userRouter = require('./routes/users')
 const channelRouter = require("./routes/channels")

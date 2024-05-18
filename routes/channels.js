@@ -18,8 +18,6 @@ const validate = (req, res, next) => {
     }
 }
 
-
-
 // route 사용
 router
     .route('/')
